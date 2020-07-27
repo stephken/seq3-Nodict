@@ -48,7 +48,7 @@ class TestNode(unittest.TestCase):
     def setUpClass(cls):
         """Performs module import and suite setup at test-runtime"""
         global nodict
-        nodict, classes, funcs = import_helper(PKG_NAME)
+        nodict, classes, #funcs = import_helper(PKG_NAME)
         cls.assertIn(
             cls, "Node", classes,
             "Missing required class: Node"
@@ -81,7 +81,7 @@ class TestNoDict(unittest.TestCase):
     def setUpClass(cls):
         """Performs module import and suite setup at test-runtime"""
         global nodict
-        nodict, classes, funcs = import_helper(PKG_NAME)
+        nodict, classes, #funcs = import_helper(PKG_NAME)
         cls.assertIn(
             cls, "NoDict", classes,
             "Missing required class: NoDict"
@@ -152,43 +152,10 @@ class TestNoDict(unittest.TestCase):
         """Check that duplicates are not allowed"""
         # New Node of same name: new value should overwrite previous value
         d = nodict.NoDict()
-
-        # Need to access the internal buckets for this test
-        self.assertIsInstance(
-            d.buckets, list,
-            "Need to implement a list of buckets named 'buckets'"
-            )
-
         d.add("Zeppo", 54)
+        self.assertEqual(d.get("Zeppo"), 54)
         d.add("Zeppo", 56)
-        # All buckets should be empty, except one
-        expected_empty = len(d.buckets) - 1
-        empty_count = 0
-        found_bucket = None
-        for b in d.buckets:
-            if len(b) == 0:
-                empty_count += 1
-            else:
-                found_bucket = b
-        self.assertEqual(
-            empty_count, expected_empty,
-            "All buckets should be empty except for one"
-            )
-
-        self.assertIsNotNone(
-            found_bucket,
-            "There should be only one bucket containing a Node"
-            )
-
-        self.assertEqual(
-            len(found_bucket), 1,
-            "There should only be one Node in one bucket"
-            )
-
-        self.assertEqual(
-            d.get('Zeppo'), 56,
-            "New value of same key should overwrite previous value"
-            )
+        self.assertEqual(d.get("Zeppo"), 56)
 
     def test_doc_strings(self):
         """Checking for docstrings on all methods"""
