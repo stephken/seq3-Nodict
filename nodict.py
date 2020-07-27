@@ -35,9 +35,11 @@ class NoDict:
         self.size = num_buckets
 
     def __repr__(self):
-        """Return a string representing the NoDict
+          """Return a string representing the NoDict
         contents"""
-        return '\n'.koin([f'{self._class_._name}.{i}:{bucket}'for i, bucket in enumerate(self.buckets)])
+        return '\n'.join([f'{self.__class__.__name__}.{i}:{bucket}' for i, bucket in enumerate(self.buckets)])
+                          
+
         
 
     def add(self, key, value):
